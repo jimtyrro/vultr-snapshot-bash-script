@@ -33,27 +33,24 @@ INSTANCE_PLAN=$(
   curl "https://api.vultr.com/v2/instances/${INSTANCE_ID}" \
     -X GET \
     -H "Authorization: Bearer ${VULTR_API_KEY}" \
-    | grep -w "plan" \
-    | cut -d ':' -f 10 \
-    | cut -d '"' -f 2
+    | grep '"' \
+    | cut -d '"' -f 28
   )
 # Get the region name of the Vultr instance to use it in the snapshot description
 INSTANCE_REGION=$(
   curl "https://api.vultr.com/v2/instances/${INSTANCE_ID}" \
     -X GET \
     -H "Authorization: Bearer ${VULTR_API_KEY}" \
-    | grep -w "region" \
-    | cut -d ':' -f 9 \
-    | cut -d '"' -f 2
+    | grep '"' \
+    | cut -d '"' -f 24
   )
 # Get the tag of the Vultr instance to use it in the snapshot description. (It will grab the first tag from the instance so I recomned to use a meaningful first tag for your instance when you create it).
 INSTANCE_TAG=$(
   curl "https://api.vultr.com/v2/instances/${INSTANCE_ID}" \
     -X GET \
     -H "Authorization: Bearer ${VULTR_API_KEY}" \
-    | grep -w "tag" \
-    | cut -d ':' -f 29 \
-    | cut -d '"' -f 2
+    | grep '"' \
+    | cut -d '"' -f 84
   )
 # Now we simply combine all the instance details collected above to create the snapshot description. Feel free to chaNge the  order to your liking. The description variable below will output as an example the following descriotion: "companyname-voc-c-4c-8gb-75s-amd-chi_2024-07-2024-07-17T05:59:06.895"
 SNAPSHOT_DESCRIPTION="${INSTANCE_TAG}-${INSTANCE_PLAN}-${INSTANCE_REGION}_${CURRENT_DATE}"
