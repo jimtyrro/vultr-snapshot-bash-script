@@ -6,8 +6,12 @@ It can be run from any computer or laptop, just download the script, make it exa
 
 Exacute this command:
 
-`crontab -e`
+```shell
+crontab -e
+```
 
 Then add the following line to your cronjob file (replace **** with your username). This will run daily at 1am:
 
-`0 1 * * * /Users/******/Cronjobs/vultr-snapshot-script.sh > /dev/null 2>&1`
+```shell
+0 1 * * * /Users/******/Cronjobs/vultr-snapshot-script.sh > /dev/null 2>&1
+```
