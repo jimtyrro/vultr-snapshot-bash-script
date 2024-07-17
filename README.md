@@ -1,10 +1,10 @@
 ## Overview
-This very rought and rudmentary bash script was created in attempt to provide a simple and free solution for anyone wanted to create free snapshots on Vultr cloud using hteir latest API v2.
-It assumes you will create separate scripts for each Vult instance you want to snapshot. Therefore you will need to add the instance ID of the server you want ot creata snapshot for. 
+This very rough and rudimentary bash script was created in attempt to provide a simple and free solution for anyone wanted to create free snapshots on Vultr cloud using their latest API v2.
+It assumes you will create separate scripts for each Vultr instance you want to snapshot. Therefore you will need to add the instance ID of the server you want ot create snapshot for.
 
-It can be run from any computer or laptop, just download the script, make it exacutable (chmod +x scriptname) and add it to your cronjob, e.g. on my Mac laptop I do this:
+It can be run from any computer or laptop, just download the script, make it executable (chmod +x scriptname) and add it to your cronjob, e.g. on my Mac laptop I do this:
 
-Exacute this command:
+Execute this command:
 
 ```shell
 crontab -e
