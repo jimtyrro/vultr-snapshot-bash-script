@@ -1,7 +1,9 @@
 ## Overview
+
 This very rough and rudimentary bash script was created in attempt to provide a simple and free solution for anyone wanted to create free snapshots on Vultr cloud using their latest API v2.
 
-It intended to be run on your personal computer/laptop, not on a server due to lack of security features, such as ptotecting Vultr API, etc. 
+It intended to be run on your personal computer/laptop, not on a server due to lack of security features, such as ptotecting Vultr API, etc.
+
 ```
 So please DO NOT USE it on your server!!
 ```
@@ -15,7 +17,7 @@ Execute this command:
 crontab -e
 ```
 
-Then add the following line to your cronjob file (replace **** with your username). This will run daily at 1am:
+Then add the following line to your cronjob file (replace \*\*\*\* with your username). This will run daily at 1am:
 
 ```shell
 0 1 * * * /Users/******/Cronjobs/vultr-snapshot-script.sh > /dev/null 2>&1
