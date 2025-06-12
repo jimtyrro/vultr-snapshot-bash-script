@@ -10,45 +10,27 @@ VULTR_API_KEY="Your API Key"
 INSTANCE_ID="Your Instance ID"
 SNAPSHOT_LIMIT=4
 
-# Get the number of snapshots
-SNAPSHOT_COUNT=$(
+# Get snapshots info
+SNAPSHOTS_RESPONSE=$(
   curl "https://api.vultr.com/v2/snapshots" \
     -X GET \
-    -H "Authorization: Bearer ${VULTR_API_KEY}" \
-    | grep -o '"id"' | wc -l
+    -H "Authorization: Bearer ${VULTR_API_KEY}"
   )
 
-# Get the ID of the oldest snapshot
-LAST_SNAPSHOT_ID=$(
-  curl "https://api.vultr.com/v2/snapshots" \
-    -X GET \
-    -H "Authorization: Bearer ${VULTR_API_KEY}" \
-    | grep -o '"id":"[^"]*"' | head -1 | cut -d '"' -f 4
-  )
+SNAPSHOT_COUNT=$(echo "$SNAPSHOTS_RESPONSE" | jq '.snapshots | length')
+LAST_SNAPSHOT_ID=$(echo "$SNAPSHOTS_RESPONSE" | jq -r '.snapshots | sort_by(.date_created) | .[0].id')
 
-# Get the plan name of the Vultr instance
-INSTANCE_PLAN=$(
+# Get instance details
+INSTANCE_RESPONSE=$(
   curl "https://api.vultr.com/v2/instances/${INSTANCE_ID}" \
     -X GET \
-    -H "Authorization: Bearer ${VULTR_API_KEY}" \
-    | grep -o '"plan":"[^"]*"' | cut -d '"' -f 4
+    -H "Authorization: Bearer ${VULTR_API_KEY}"
   )
 
-# Get the region name of the Vultr instance
-INSTANCE_REGION=$(
-  curl "https://api.vultr.com/v2/instances/${INSTANCE_ID}" \
-    -X GET \
-    -H "Authorization: Bearer ${VULTR_API_KEY}" \
-    | grep -o '"region":"[^"]*"' | cut -d '"' -f 4
-  )
-
-# Get the tag of the Vultr instance
-INSTANCE_TAG=$(
-  curl "https://api.vultr.com/v2/instances/${INSTANCE_ID}" \
-    -X GET \
-    -H "Authorization: Bearer ${VULTR_API_KEY}" \
-    | grep -o '"your-tag-here"' | sed 's/"//g' | head -1
-  )
+INSTANCE_PLAN=$(echo "$INSTANCE_RESPONSE" | jq -r '.instance.plan')
+INSTANCE_REGION=$(echo "$INSTANCE_RESPONSE" | jq -r '.instance.region')
+# Replace "your-tag-here" with your specific tag name
+INSTANCE_TAG=$(echo "$INSTANCE_RESPONSE" | jq -r '.instance.tags[] | select(. == "your-tag-here")')
 
 # Combine all the instance details to create the snapshot description
 SNAPSHOT_DESCRIPTION="${INSTANCE_TAG}-${INSTANCE_PLAN}-${INSTANCE_REGION}_${CURRENT_DATE}"
